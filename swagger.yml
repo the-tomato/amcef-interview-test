@@ -1,0 +1,132 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a sample server Test server"
+  version: "1.0.0"
+  title: "Swagger Test list"
+schemes:
+- "http"
+paths:
+  /posts/{postId}:
+    parameters:
+    - in: path
+      name: postId
+      type: integer
+      minimum: 1
+      required: true
+      description: "ID of the post"
+    get:
+      summary: "Get a post with the specified ID"
+      description: ""
+      operationId: "views.get_post"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "The requested post"
+          schema:
+            $ref: '#/definitions/Post'
+        "404":
+          description: "No such post found"
+    delete:
+      summary: "Delete a post with the specified ID"
+      description: ""
+      operationId: "views.delete_post"
+      responses:
+        "200":
+          description: "Post was deleted"
+        "404":
+          description: "No such post found"
+    patch:
+      summary: "Edits a post with the specified ID"
+      description: ""
+      operationId: "views.edit_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: data
+        description: "The new post data"
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+            body:
+              type: string
+      responses:
+        "200":
+          description: "The edited post"
+          schema:
+            $ref: '#/definitions/Post'
+        "404":
+          description: "No such post found"
+  /posts:
+    get:
+      summary: "Get posts (can be filtered by userId)"
+      description: ""
+      operationId: "views.get_posts"
+      produces:
+      - "application/json"
+      parameters:
+      - in: query
+        name: userId
+        type: integer
+        minimum: 1
+        description: "User ID of the posts to get"
+      responses:
+        "200":
+          description: "The requested post"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+        "404":
+          description: "No such posts found"
+    post:
+      summary: "Creates a new post"
+      description: ""
+      operationId: "views.create_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: query
+        name: userId
+        type: integer
+        minimum: 1
+        required: true
+        description: "ID of the user creating the post"
+      - in: body
+        name: data
+        description: "The new post"
+        schema:
+          type: object
+          required:
+          - title
+          - body
+          properties:
+            title:
+              type: string
+            body:
+              type: string
+      responses:
+        "200":
+          description: "The created post"
+          schema:
+            $ref: '#/definitions/Post'
+definitions:
+  Post:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      userId:
+        type: "integer"
+      title:
+        type: "string"
+      body:
+        type: "string"

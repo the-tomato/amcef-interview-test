@@ -1,0 +1,9 @@
+pyms:
+  services:
+    requests:
+      data: ""
+    swagger:
+      path: ""
+      file: "swagger.yml"
+  config:
+    app_name: "AMCEF Interview Test"
